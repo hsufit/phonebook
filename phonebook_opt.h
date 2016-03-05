@@ -6,7 +6,7 @@
 /* TODO: After modifying the original version, uncomment the following
  * line to set OPT properly */
 #define OPT 1
-#define ENTRY_SIZE (65535)
+#define ENTRY_SIZE (32)
 
 typedef struct __PHONE_BOOK_DETAIL {
     char firstName[16];
