@@ -50,17 +50,22 @@ int main(int argc, char *argv[])
 #if defined(OPT)
 //    entry *pHead_pos[26];
     /*need new append*/
-    while (fgets(line, sizeof(line), fp)) {
+    /*while (fgets(line, sizeof(line), fp)) {
         while (line[i] != '\0')
             i++;
         line[i - 1] = '\0';
         i = 0;
         e = append(line, e);
+    }*/
+
+    while(e!=NULL) {
+        e = append(fp,e);
     }
+
 
     e=pHead;
     while(e != NULL) {
-        e->pDetail = (detail *) malloc(sizeof(detail));
+        e->pDetail = (detail (*)[ENTRY_SIZE]) malloc(sizeof(detail[ENTRY_SIZE]));
         e = e->pNext;
     }
 #else
@@ -78,15 +83,24 @@ int main(int argc, char *argv[])
     /* close file as soon as possible */
     fclose(fp);
 
-    e = pHead;
+    e = pHead->pNext->pNext->pNext;
+    for(i=0; i<ENTRY_SIZE; i++) {
+        printf("__%s__\n",e->lastName[i]);
+    }
 
     /* the givn last name to find */
     char input[MAX_LAST_NAME_SIZE] = "zyxel";
     e = pHead;
 
+#if defined(OPT)
+    assert(findName(input, e) &&
+           "Did you implement findName() in " IMPL "?");
+    assert(0 == strcmp(findName(input, e)->ans, "zyxel"));
+#else
     assert(findName(input, e) &&
            "Did you implement findName() in " IMPL "?");
     assert(0 == strcmp(findName(input, e)->lastName, "zyxel"));
+#endif
 
 #if defined(__GNUC__)
     __builtin___clear_cache((char *) pHead, (char *) pHead + sizeof(entry));
