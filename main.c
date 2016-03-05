@@ -57,6 +57,12 @@ int main(int argc, char *argv[])
         i = 0;
         e = append(line, e);
     }
+
+    e=pHead;
+    while(e != NULL) {
+        e->pDetail = (detail *) malloc(sizeof(detail));
+        e = e->pNext;
+    }
 #else
     while (fgets(line, sizeof(line), fp)) {
         while (line[i] != '\0')

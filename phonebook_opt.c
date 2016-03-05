@@ -20,7 +20,7 @@ entry *findName(char lastname[], entry *pHead)
 inline entry *append(char lastName[], entry *e)
 {
     e->pNext = (entry *) malloc(sizeof(entry));
-    e->pDetail = (entry *) malloc(sizeof(detail));
+    //e->pDetail = (detail *) malloc(sizeof(detail));
     e = e->pNext;
     strcpy(e->lastName, lastName);
     e->pNext = NULL;
