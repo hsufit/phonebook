@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     /* build the entry */
     entry *pHead, *e;
     pHead = (entry *) malloc(sizeof(entry));
-    printf("size of entry : %lu bytes\n", sizeof(entry));
+    printf("size of entry : %u bytes\n", sizeof(entry));
     e = pHead;
     e->pNext = NULL;
 
@@ -47,6 +47,9 @@ int main(int argc, char *argv[])
     __builtin___clear_cache((char *) pHead, (char *) pHead + sizeof(entry));
 #endif
     clock_gettime(CLOCK_REALTIME, &start);
+#if defined(OPT)
+//    entry *pHead_pos[26];
+    /*need new append*/
     while (fgets(line, sizeof(line), fp)) {
         while (line[i] != '\0')
             i++;
@@ -54,6 +57,15 @@ int main(int argc, char *argv[])
         i = 0;
         e = append(line, e);
     }
+#else
+    while (fgets(line, sizeof(line), fp)) {
+        while (line[i] != '\0')
+            i++;
+        line[i - 1] = '\0';
+        i = 0;
+        e = append(line, e);
+    }
+#endif
     clock_gettime(CLOCK_REALTIME, &end);
     cpu_time1 = diff_in_second(start, end);
 
@@ -75,7 +87,12 @@ int main(int argc, char *argv[])
 #endif
     /* compute the execution time */
     clock_gettime(CLOCK_REALTIME, &start);
+#if defined(OPT)
+    /*need new find_name*/
     findName(input, e);
+#else
+    findName(input, e);
+#endif
     clock_gettime(CLOCK_REALTIME, &end);
     cpu_time2 = diff_in_second(start, end);
 
