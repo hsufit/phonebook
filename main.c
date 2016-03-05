@@ -48,7 +48,9 @@ int main(int argc, char *argv[])
 #endif
     clock_gettime(CLOCK_REALTIME, &start);
 #if defined(OPT)
-//    entry *pHead_pos[26];
+    entry *pHead_start[26]= {NULL};
+    int j=0;
+//    pHead_start[0]=pHead;
     /*need new append*/
     while (fgets(line, sizeof(line), fp)) {
         while (line[i] != '\0')
@@ -56,6 +58,10 @@ int main(int argc, char *argv[])
         line[i - 1] = '\0';
         i = 0;
         e = append(line, e);
+        if(line[0]-'a'==j) {
+            pHead_start[j]=e;
+            j++;
+        }
     }
 
     e=pHead;
@@ -95,7 +101,7 @@ int main(int argc, char *argv[])
     clock_gettime(CLOCK_REALTIME, &start);
 #if defined(OPT)
     /*need new find_name*/
-    findName(input, e);
+    findName(input, pHead_start[input[0]-'a']);
 #else
     findName(input, e);
 #endif
@@ -105,6 +111,8 @@ int main(int argc, char *argv[])
     FILE *output;
 #if defined(OPT)
     output = fopen("opt.txt", "a");
+//    for(i=0;i<26;i++)
+//        printf("pHead_start entry[%c] = \"%s\"\n",(char)i+'a',pHead_start[i]->lastName);
 #else
     output = fopen("orig.txt", "a");
 #endif
